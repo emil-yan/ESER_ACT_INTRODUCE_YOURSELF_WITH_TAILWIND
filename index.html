@@ -21,10 +21,60 @@
         nav {
             mix-blend-mode: difference;
         }
+        
+        /* Loading Screen Styling */
+        #loader {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background-color: #09090b; /* zinc-950 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1s ease-in-out;
+        }
+
+        #loader p {
+            font-family: "BIZ UDMincho", serif;
+            color: white;
+            margin-top: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+            font-size: 10px;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+
+        /* Spinner Animation */
+        .spinner {
+            width: 6rem;
+            height: 6rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #dc2626; /* red-600 */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body class="text-white selection:bg-red-600">
 
+    <div id="loader">
+        <div class="relative flex items-center justify-center">
+            <div class="spinner"></div>
+            <div class="absolute text-white font-black text-xs tracking-widest uppercase">ykcul</div>
+        </div>
+        <p>Initializing Systems...</p>
+    </div>
+    
     <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-10 py-6">
         <div class="text-3xl font-black italic tracking-tighter">ykcul</div>
         <div class="hidden md:flex space-x-12">
@@ -147,7 +197,7 @@
                 const v = entry.target;
                 if (entry.isIntersecting) {
                     v.muted = false;
-                    v.play();
+                    v.play().catch(() => console.log("Playback interaction required"));
                     fadeVolume(v, 1, 2000); 
                 } else {
                     fadeVolume(v, 0, 1000);
@@ -165,21 +215,18 @@
         const scroller = document.querySelector('#scroller');
         const viewport = document.querySelector('#viewport');
         const sections = document.querySelectorAll('section');
+        const loader = document.getElementById('loader'); // Added loader reference
         
         let currentPos = 0;
         let targetPos = 0;
-        
-        // Grab Variables
         let isDown = false;
         let startX;
         let scrollLeft;
     
-        // Configuration
         const friction = 0.08; 
         const snapStrength = 0.05; 
         const scrollSpeed = 1.6; 
     
-        // Wheel Scroll
         window.addEventListener('wheel', (e) => {
             e.preventDefault();
             targetPos += e.deltaY * scrollSpeed;
@@ -187,7 +234,6 @@
             targetPos = Math.max(0, Math.min(targetPos, maxScroll));
         }, { passive: false });
     
-        // --- INSERTED GRAB LOGIC START ---
         viewport.addEventListener('mousedown', (e) => {
             isDown = true;
             viewport.style.cursor = 'grabbing';
@@ -204,22 +250,18 @@
             if (!isDown) return;
             e.preventDefault();
             const x = e.pageX;
-            const walk = (x - startX) * 2.5; // Drag sensitivity
+            const walk = (x - startX) * 2.5; 
             targetPos = scrollLeft - walk;
-            
             const maxScroll = (sections.length - 1) * window.innerWidth;
             targetPos = Math.max(0, Math.min(targetPos, maxScroll));
         });
-        // --- INSERTED GRAB LOGIC END ---
     
         function update() {
             currentPos += (targetPos - currentPos) * friction;
-    
-            if (Math.abs(targetPos - currentPos) < 100 && !isDown) { // Only snap if NOT dragging
+            if (Math.abs(targetPos - currentPos) < 100 && !isDown) {
                 const nearestSection = Math.round(currentPos / window.innerWidth) * window.innerWidth;
                 targetPos += (nearestSection - targetPos) * snapStrength;
             }
-    
             scroller.style.transform = `translateX(${-currentPos}px)`;
             requestAnimationFrame(update);
         }
@@ -227,6 +269,18 @@
         function navTo(index) {
             targetPos = index * window.innerWidth;
         }
+    
+        // --- 3. LOADING SCREEN LOGIC ---
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (loader) {
+                    loader.style.opacity = '0';
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                    }, 1000); // Wait for opacity transition to finish
+                }
+            }, 1500); // Keep loader visible for 1.5s for aesthetic
+        });
     
         update();
     </script>
