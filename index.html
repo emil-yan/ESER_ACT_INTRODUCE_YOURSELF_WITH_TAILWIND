@@ -12,12 +12,36 @@
     <style>
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        body, html { margin: 0; padding: 0; overflow: hidden; height: 100vh; background: #09090b; }
-        .horizontal-wrapper { display: flex; width: fit-content; height: 100vh; will-change: transform; }
-        section { width: 100vw; height: 100vh; flex-shrink: 0; }
+        
         body, html { 
-            font-family: "BIZ UDMincho", serif; /* Add this line */
+            margin: 0; padding: 0; overflow: hidden; 
+            height: 100vh; height: 100dvh; /* dynamic viewport height for mobile browsers */
+            background: #09090b; 
+            font-family: "BIZ UDMincho", serif;
         }
+
+        .horizontal-wrapper { 
+            display: flex; 
+            width: fit-content; 
+            height: 100vh; 
+            height: 100dvh; 
+            will-change: transform; 
+        }
+
+        section { 
+            width: 100vw; 
+            height: 100vh; 
+            height: 100dvh; 
+            flex-shrink: 0; 
+            overflow: hidden; 
+        }
+
+        @media (max-width: 768px) {
+            .text-5xl { font-size: 3rem !important; }
+            .text-5xl { font-size: 4rem !important; }
+            .pl-11 { padding-top: 3rem !important; }
+        }
+
         nav {
             mix-blend-mode: difference;
         }
@@ -63,6 +87,7 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
     </style>
 </head>
 <body class="text-white selection:bg-red-600">
@@ -89,7 +114,7 @@
     <main id="viewport" class="overflow-hidden h-screen w-screen cursor-grab active:cursor-grabbing">
         <div id="scroller" class="horizontal-wrapper">
             
-            <section class="relative flex items-center justify-center bg-zinc-950 overflow-hidden">
+            <section class="relative flex items-center justify-center bg-zinc-950 overflow-hidden h-1/2 md:h-full">
                 <!-- Replace 'your-video-name.mp4' with the actual filename in your folder -->
                 <video 
                     autoplay 
@@ -106,12 +131,12 @@
             </section>
 
             <section class="bg-white text-zinc-950 flex flex-col md:flex-row">
-                <div class="w-full md:w-1/3 p-20 flex flex-col justify-center">
-                    <h2 class="text-red-600 font-black mb-4 tracking-widest">01 / HAJIME NO IPPO | はじめの一歩</h2>
-                    <h3 class="text-7xl font-black uppercase mb-6 leading-tight">Mastering<br>The Road.</h3>
+                <div class="w-full md:w-1/3 pl-11 flex flex-col justify-center h-1/2 md:h-full">
+                    <h2 class="text-red-600 font-black mb-4 tracking-widest text-xs md:text-sm">01 / HAJIME NO IPPO | はじめの一歩</h2>
+                    <h3 class="text-5xl md:text-5xl font-black uppercase mb-6 leading-tight">Mastering<br>The Road.</h3>
                     <div class="h-2 w-32 bg-red-600"></div>
                 </div>
-                <div class="w-full md:w-3/4 bg-zinc-900 flex items-center justify-center">
+                <div class="w-full md:w-3/4 bg-zinc-900 flex items-center justify-center h-1/2 md:h-full">
                     <!-- Video replaces the <img> tag here -->
                     <video 
                         muted 
@@ -125,12 +150,12 @@
             </section>
 
             <section class="bg-white text-zinc-950 flex flex-col md:flex-row">
-                <div class="w-full md:w-1/3 p-20 flex flex-col justify-center">
-                    <h2 class="text-red-600 font-black mb-4 tracking-widest">02 / CODE GEASS | コードギアス 反逆のルルーシュ</h2>
-                    <h3 class="text-7xl font-black uppercase mb-6 leading-tight">The Art<br>of Deceit.</h3>
+                <div class="w-full md:w-1/3 pl-11 flex flex-col justify-center h-1/2 md:h-full">
+                    <h2 class="text-red-600 font-black mb-4 tracking-widest text-xs md:text-sm">02 / CODE GEASS | コードギアス 反逆のルルーシュ</h2>
+                    <h3 class="text-5xl md:text-5xl font-black uppercase mb-6 leading-tight">The Art<br>of Deceit.</h3>
                     <div class="h-2 w-32 bg-red-600"></div>
                 </div>
-                <div class="w-full md:w-3/4 bg-zinc-900 flex items-center justify-center">
+                <div class="w-full md:w-3/4 bg-zinc-900 flex items-center justify-center h-1/2 md:h-full">
                     <!-- Video replaces the <img> tag here -->
                     <video 
                         muted 
@@ -143,13 +168,13 @@
             </section>
             
             <section class="bg-red-600 flex flex-col md:flex-row-reverse text-white">
-                <div class="w-full md:w-1/3 p-20 flex flex-col justify-center">
-                    <h2 class="text-zinc-950 font-black mb-4 tracking-widest text-sm">03 / Skateboarding | スケートボード</h2>
-                    <h3 class="text-7xl font-black uppercase mb-6 italic">FLIP.</h3>
+                <div class="w-full md:w-1/3 pl-11 flex flex-col justify-center h-1/2 md:h-full">
+                    <h2 class="text-zinc-950 font-black mb-4 tracking-widest text-xs md:text-sm">03 / Skateboarding | スケートボード</h2>
+                    <h3 class="text-5xl md:text-5xl font-black uppercase mb-6 italic">FLIP.</h3>
                     <p class="max-w-sm mb-10 font-medium">Bootleg 2022 video</p>
                 </div> <!-- Keep only ONE closing div here -->
             
-                <div class="w-full md:w-3/4 bg-zinc-900 flex items-center justify-center overflow-hidden">
+                <div class="w-full md:w-3/4 bg-zinc-900 flex items-center justify-center overflow-hidden h-1/2 md:h-full">
                     <video 
                         muted 
                         loop 
@@ -210,11 +235,11 @@
             videoObserver.observe(vid);
         });
     
-        // 2. SCROLL & GRAB LOGIC
-        const scroller = document.querySelector('#scroller');
+           // 2. SCROLL, GRAB & TOUCH LOGIC
+           const scroller = document.querySelector('#scroller');
         const viewport = document.querySelector('#viewport');
         const sections = document.querySelectorAll('section');
-        const loader = document.getElementById('loader'); // Added loader reference
+        const loader = document.getElementById('loader');
         
         let currentPos = 0;
         let targetPos = 0;
@@ -226,35 +251,52 @@
         const snapStrength = 0.05; 
         const scrollSpeed = 1.6; 
     
+        // Wheel Scroll
         window.addEventListener('wheel', (e) => {
-            e.preventDefault();
             targetPos += e.deltaY * scrollSpeed;
-            const maxScroll = (sections.length - 1) * window.innerWidth;
-            targetPos = Math.max(0, Math.min(targetPos, maxScroll));
-        }, { passive: false });
+            limitTarget();
+        }, { passive: true });
     
+        // MOUSE Events
         viewport.addEventListener('mousedown', (e) => {
             isDown = true;
             viewport.style.cursor = 'grabbing';
             startX = e.pageX;
             scrollLeft = targetPos;
         });
-    
-        window.addEventListener('mouseup', () => {
-            isDown = false;
-            viewport.style.cursor = 'grab';
-        });
-    
+        window.addEventListener('mouseup', () => { isDown = false; viewport.style.cursor = 'grab'; });
+        window.addEventListener('mouseleave', () => { isDown = false; });
         window.addEventListener('mousemove', (e) => {
             if (!isDown) return;
-            e.preventDefault();
             const x = e.pageX;
-            const walk = (x - startX) * 2.5; 
+            const walk = (x - startX) * 2.2; 
             targetPos = scrollLeft - walk;
+            limitTarget();
+        });
+
+        // TOUCH Events (Mobile Swiping)
+        viewport.addEventListener('touchstart', (e) => {
+            isDown = true;
+            startX = e.touches[0].pageX;
+            scrollLeft = targetPos;
+        }, { passive: true });
+        window.addEventListener('touchend', () => { isDown = false; });
+        window.addEventListener('touchmove', (e) => {
+            if (!isDown) return;
+            const x = e.touches[0].pageX;
+            const walk = (x - startX) * 2.2;
+            targetPos = scrollLeft - walk;
+            limitTarget();
+        }, { passive: true });
+
+        // Helper to keep scroll in bounds
+        function limitTarget() {
             const maxScroll = (sections.length - 1) * window.innerWidth;
             targetPos = Math.max(0, Math.min(targetPos, maxScroll));
-        });
+        }
     
+
+        
         function update() {
             currentPos += (targetPos - currentPos) * friction;
             if (Math.abs(targetPos - currentPos) < 100 && !isDown) {
